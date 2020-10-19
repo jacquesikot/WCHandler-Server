@@ -3,30 +3,30 @@ import { Schema, model } from 'mongoose';
 
 import { UserProps } from '../types';
 
-const User = model(
-  'User',
-  new Schema({
-    username: {
-      type: String,
-      required: true,
-      minlength: 5,
-      maxlength: 255,
-    },
-    email: {
-      type: String,
-      required: true,
-      minlength: 5,
-      maxlength: 255,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: 5,
-      maxlength: 1024,
-    },
-  })
-);
+const userSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 255,
+  },
+  email: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 255,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 1024,
+  },
+  isAdmin: Boolean,
+});
+
+const User = model('User', userSchema);
 
 export const validateUser = (user: UserProps) => {
   const schema = Joi.object({

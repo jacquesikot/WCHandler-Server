@@ -11,6 +11,12 @@ export default class UserService {
     return false;
   }
 
+  public async findUserById(id: number) {
+    let user = await User.findById(id).select('-password');
+
+    return user;
+  }
+
   public async createUser(user_params: UserProps) {
     const salt = await bcrypt.genSalt(10);
     user_params.password = await bcrypt.hash(user_params.password, salt);

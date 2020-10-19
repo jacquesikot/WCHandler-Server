@@ -20,6 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
+const middlewares_1 = require("../middlewares");
 class Home {
     constructor() {
         this.path = '/';
@@ -30,7 +31,7 @@ class Home {
         this.intializeRoutes();
     }
     intializeRoutes() {
-        this.router.get(this.path, this.home);
+        this.router.get(this.path, middlewares_1.auth, middlewares_1.admin, this.home);
     }
 }
 exports.default = Home;

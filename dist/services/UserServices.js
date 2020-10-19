@@ -43,6 +43,12 @@ class UserService {
             return false;
         });
     }
+    findUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let user = yield models_1.User.findById(id).select('-password');
+            return user;
+        });
+    }
     createUser(user_params) {
         return __awaiter(this, void 0, void 0, function* () {
             const salt = yield bcrypt_1.default.genSalt(10);

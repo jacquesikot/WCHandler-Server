@@ -27,10 +27,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const services_1 = require("../services");
 const models_1 = require("../models");
+const constants_1 = require("../constants");
+const middlewares_1 = require("../middlewares");
 const services = new services_1.UserService();
 class Users {
     constructor() {
@@ -44,12 +50,18 @@ class Users {
             if (user)
                 return res.status(400).send('User already registered.');
             const response = yield services.createUser(req.body);
-            res.send(response);
+            const token = jsonwebtoken_1.default.sign({ _id: user._id, isAdmin: user.isAdmin }, constants_1.JWT_KEY);
+            res.header('x-auth-token', token).send(response);
+        });
+        this.getUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const user = yield services.findUserById(req.user._id);
+            res.send(user);
         });
         this.intializeRoutes();
     }
     intializeRoutes() {
         this.router.post(this.path, this.addUser);
+        this.router.get(this.path + '/me', middlewares_1.auth, this.getUser);
     }
 }
 exports.default = Users;

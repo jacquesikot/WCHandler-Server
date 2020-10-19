@@ -1,6 +1,8 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 
+import { auth, admin } from '../middlewares';
+
 class Home {
   public path = '/';
   public router = express.Router();
@@ -10,13 +12,11 @@ class Home {
   }
 
   private intializeRoutes() {
-    this.router.get(this.path, this.home);
+    this.router.get(this.path, auth, admin, this.home);
   }
 
   private home = (_req: Request, res: Response) => {
     res.send('we are live');
-
-    
   };
 }
 

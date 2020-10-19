@@ -32,40 +32,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const joi_1 = __importDefault(require("joi"));
-const services_1 = require("../services");
-const constants_1 = require("../constants");
-const services = new services_1.UserService();
-class Auth {
+const woocommerce_rest_api_1 = __importDefault(require("@woocommerce/woocommerce-rest-api"));
+const woocommerce = new woocommerce_rest_api_1.default({
+    url: 'http://astrosboutique.com',
+    consumerKey: 'ck_2460bb859a68ed89dd61b366c938ad0e0268fe33',
+    consumerSecret: 'cs_618366529939e6841cf58fef1dde5cf1146cdd76',
+    version: 'wc/v3',
+});
+class WooCommerce {
     constructor() {
-        this.path = '/api/auth';
+        this.path = '/api/woo';
         this.router = express.Router();
-        this.addUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const validateAuth = (req) => {
-                const schema = joi_1.default.object({
-                    email: joi_1.default.string().min(5).max(255).required().email(),
-                    password: joi_1.default.string().min(5).max(255).required(),
-                });
-                return schema.validate(req);
-            };
-            const { error } = validateAuth(req.body);
-            if (error)
-                return res.status(400).send(error.details[0].message);
-            let user = yield services.findUser(req.body);
-            if (!user)
-                return res.status(400).send('Invalid email or password');
-            const validPassword = yield services.validatePassword(req.body.password, user.password);
-            if (!validPassword)
-                return res.status(400).send('Invalid email or password');
-            const token = jsonwebtoken_1.default.sign({ _id: user._id, isAdmin: user.isAdmin }, constants_1.JWT_KEY);
-            res.send(token);
+        this.response = (_req, res) => __awaiter(this, void 0, void 0, function* () {
+            const response = yield woocommerce.get('products');
+            console.log(response.data);
+            res.send('okay');
         });
         this.intializeRoutes();
     }
     intializeRoutes() {
-        this.router.post(this.path, this.addUser);
+        this.router.get(this.path, this.response);
     }
 }
-exports.default = Auth;
-//# sourceMappingURL=Auth.js.map
+exports.default = WooCommerce;
+//# sourceMappingURL=WooCommerce.js.map

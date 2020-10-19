@@ -1,8 +1,10 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import Joi from 'joi';
 
 import { UserService } from '../services';
+import { JWT_KEY } from '../constants';
 
 const services = new UserService();
 
@@ -41,7 +43,10 @@ class Auth {
 
     if (!validPassword)
       return res.status(400).send('Invalid email or password');
-    res.send(true);
+
+    // move getAuthToken() to a method on the User Model
+    const token = jwt.sign({ _id: user._id, isAdmin: user.isAdmin }, JWT_KEY);
+    res.send(token);
   };
 }
 
