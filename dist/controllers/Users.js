@@ -37,7 +37,7 @@ const services_1 = require("../services");
 const models_1 = require("../models");
 const constants_1 = require("../constants");
 const middlewares_1 = require("../middlewares");
-const services = new services_1.UserService();
+const services = new services_1.UserServices();
 class Users {
     constructor() {
         this.path = '/api/users';

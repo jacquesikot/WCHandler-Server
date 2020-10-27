@@ -1,9 +1,9 @@
 import { PORT } from './constants';
 import App from './config/appServer';
-import { Home, Users, Auth, WooCommerce } from './controllers';
+import { Home, Users, Auth, Products } from './controllers';
 
 const app = new App(
-  [new Home(), new Users(), new Auth(), new WooCommerce()],
+  [new Home(), new Users(), new Auth(), new Products()],
   PORT
 );
 

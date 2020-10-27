@@ -36,7 +36,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const joi_1 = __importDefault(require("joi"));
 const services_1 = require("../services");
 const constants_1 = require("../constants");
-const services = new services_1.UserService();
+const services = new services_1.UserServices();
 class Auth {
     constructor() {
         this.path = '/api/auth';

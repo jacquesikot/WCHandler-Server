@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { UserProps } from '../types';
 import { User } from '../models';
 
-export default class UserService {
+export default class UserServices {
   public async findUser(user_params: UserProps) {
     let user = await User.findOne({ email: user_params.email });
     if (user) return user.toObject();

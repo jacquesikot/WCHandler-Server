@@ -3,10 +3,10 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import Joi from 'joi';
 
-import { UserService } from '../services';
+import { UserServices } from '../services';
 import { JWT_KEY } from '../constants';
 
-const services = new UserService();
+const services = new UserServices();
 
 class Auth {
   public path = '/api/auth';

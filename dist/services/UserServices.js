@@ -34,7 +34,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const _ = __importStar(require("lodash"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const models_1 = require("../models");
-class UserService {
+class UserServices {
     findUser(user_params) {
         return __awaiter(this, void 0, void 0, function* () {
             let user = yield models_1.User.findOne({ email: user_params.email });
@@ -67,5 +67,5 @@ class UserService {
         });
     }
 }
-exports.default = UserService;
-//# sourceMappingURL=userServices.js.map
+exports.default = UserServices;
+//# sourceMappingURL=UserServices.js.map

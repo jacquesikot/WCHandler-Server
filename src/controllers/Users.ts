@@ -3,12 +3,12 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import * as _ from 'lodash';
 
-import { UserService } from '../services';
+import { UserServices } from '../services';
 import { validateUser } from '../models';
 import { JWT_KEY } from '../constants';
 import { auth } from '../middlewares';
 
-const services = new UserService();
+const services = new UserServices();
 
 class Users {
   public path = '/api/users';
